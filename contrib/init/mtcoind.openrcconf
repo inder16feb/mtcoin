@@ -1,0 +1,26 @@
+# /etc/conf.d/mtcoind: config file for /etc/init.d/mtcoind
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/mtcoin/mtcoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/mtcoind"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/mtcoind.pid"
+
+# Where to write mtcoind data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/mtcoind"
+
+# User and group to own mtcoind process
+#BITCOIND_USER="mtcoin"
+#BITCOIND_GROUP="mtcoin"
+
+# Path to mtcoind executable
+#BITCOIND_BIN="/usr/bin/mtcoind"
+
+# Nice value to run mtcoind under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

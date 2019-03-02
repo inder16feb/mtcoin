@@ -1,0 +1,26 @@
+[Unit]
+Description=Mtcoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=mtcoin
+Group=mtcoin
+
+Type=forking
+PIDFile=/var/lib/mtcoind/mtcoind.pid
+
+ExecStart=/usr/bin/mtcoind -daemon -pid=/var/lib/mtcoind/mtcoind.pid \
+          -conf=/etc/mtcoin/mtcoin.conf -datadir=/var/lib/mtcoind
+
+ExecStop=-/usr/bin/mtcoin-cli -conf=/etc/mtcoin/mtcoin.conf \
+         -datadir=/var/lib/mtcoind stop
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

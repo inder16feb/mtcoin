@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  mtcoind The Mtcoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: mtcoind
+# processname: mtcoind
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/mtcoind, see below
+if [ -f /etc/sysconfig/mtcoind ]; then
+        . /etc/sysconfig/mtcoind
+fi
+
+RETVAL=0
+
+prog=mtcoind
+# you can override the lockfile via BITCOIND_LOCKFILE in /etc/sysconfig/mtcoind
+lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/mtcoind}
+
+# mtcoind defaults to /usr/bin/mtcoind, override with BITCOIND_BIN
+bitcoind=${BITCOIND_BIN-/usr/bin/mtcoind}
+
+# mtcoind opts default to -disablewallet, override with BITCOIND_OPTS
+bitcoind_opts=${BITCOIND_OPTS}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $bitcoind $bitcoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
